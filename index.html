@@ -124,39 +124,16 @@
     <p>A ty mnie kochasz?</p>
     <div class="popup-buttons">
         <button onclick="playMusicAndHide()">Tak</button>
-        <button id="noButton" onmouseover="this.classList.add('hidden')" onmouseout="this.classList.remove('hidden')" onclick="answer('Nie')">Nie</button>
+        <button id="noButton" onmouseover="this.classList.add('hidden')" onclick="hideNoButton()">Nie</button>
     </div>
 </div>
 
 <audio id="audio" src="how_deep.mp3"></audio>
 
 <script>
-    var noButtonInterval; // Przechowuje identyfikator interwału przesuwającego przycisk "Nie"
-
     function showPopup() {
         var popup = document.getElementById('popup');
         popup.style.display = 'block';
-    }
-
-    function answer(response) {
-        alert('Odpowiedziałeś: ' + response);
-        var popup = document.getElementById('popup');
-        popup.style.display = 'none';
-        stopMovingNoButton(); // Zatrzymujemy ruch przycisku "Nie" po kliknięciu
-    }
-
-    function startMovingNoButton() {
-        var noButton = document.getElementById('noButton');
-        noButton.style.position = 'absolute';
-        noButtonInterval = setInterval(function() {
-            var range = 30;
-            noButton.style.top = Math.random() * (window.innerHeight - noButton.offsetHeight - range) + 'px';
-            noButton.style.left = Math.random() * (window.innerWidth - noButton.offsetWidth - range) + 'px';
-        }, 100);
-    }
-
-    function stopMovingNoButton() {
-        clearInterval(noButtonInterval); // Zatrzymujemy interwał przesuwający przycisk "Nie"
     }
 
     function playMusicAndHide() {
@@ -168,17 +145,12 @@
         var popup = document.getElementById('popup');
         popup.style.display = 'none'; // Ukryj listę i przyciski
     }
+
+    function hideNoButton() {
+        var noButton = document.getElementById('noButton');
+        noButton.style.display = 'none'; // Ukryj przycisk "Nie"
+    }
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
