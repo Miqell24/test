@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Koperta na różowym tle</title>
+<link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #ffffff; /* białe tło */
+        font-family: 'Lobster', cursive; /* Ustawienie czcionki */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh; /* Zapewniamy minimalną wysokość na całą wysokość widoku */
+    }
+
+    .envelope-container {
+        width: 50%;
+        max-width: 400px; /* Maksymalna szerokość koperty */
+        text-align: center; /* Wyśrodkowanie zawartości */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .envelope {
+        width: 100%;
+        padding-top: 100%; /* Ustawiamy aspect ratio na 1:1 */
+        background-color: white; /* kolor koperty */
+        position: relative;
+        border-radius: 20px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+        overflow: hidden; /* Zapobiegamy wylaniu zawartości */
+        cursor: pointer; /* Kursor zmienia się na rękę, aby sugerować klikalność */
+    }
+
+    .envelope:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%; /* Zmienione na 100% */
+        background-color: #FFC0CB; /* różowe tło */
+        border-radius: 20px;
+        z-index: -1; /* Przesunięcie w tle */
+    }
+
+    .envelope h1 {
+        font-size: 36px;
+        color: #FF69B4; /* Różowy kolor tekstu */
+        text-align: center;
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1; /* Tekst na wierzchu */
+        font-weight: normal; /* Usuwamy pogrubienie, ponieważ Lobster nie ma wersji pogrubionej */
+    }
+
+    /* Styl dla listy */
+    .popup {
+        background: rgba(255, 255, 255, 0.9);
+        padding: 40px; /* Zwiększamy odstęp wewnątrz okna popup */
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        display: none;
+        z-index: 9999;
+        max-width: 80%; /* Maksymalna szerokość okna popup */
+        margin: auto; /* Centrowanie okna popup */
+        overflow: auto; /* Dodajemy przewijanie w przypadku długich list */
+        text-align: center; /* Wyśrodkowanie zawartości */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    /* Styl dla przycisków */
+    .popup-buttons {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px; /* Zwiększamy odstęp między przyciskami */
+    }
+
+    .popup-buttons button {
+        margin: 0 10px; /* Zwiększamy odstęp między przyciskami */
+        padding: 10px 30px; /* Zwiększamy rozmiar przycisków */
+        border: none;
+        cursor: pointer;
+        background-color: #FF69B4;
+        color: white;
+        border-radius: 5px;
+        font-size: 16px;
+        font-family: 'Lobster', cursive; /* Ustawienie czcionki */
+        opacity: 1; /* Przycisk "Tak" zawsze widoczny */
+    }
+
+    .popup-buttons button:hover {
+        opacity: 1; /* Po najechaniu myszką opacity na 1, przycisk staje się widoczny */
+    }
+</style>
+</head>
+<body>
+
+<div class="envelope-container">
+    <div class="envelope" onclick="showPopup()">
+        <h1>Dla Gabi</h1>
+    </div>
+</div>
+
+<div class="popup" id="popup">
+    <p>Kocham Cię Gabi</p>
+    <p>A ty mnie kochasz?</p>
+    <div class="popup-buttons">
+        <button onclick="playMusicAndHide()">Tak</button>
+        <button id="noButton" onmouseover="startMovingNoButton()" onmouseout="stopMovingNoButton()" onclick="answer('Nie')">Nie</button>
+    </div>
+</div>
+
+<audio id="audio" src="how_deep.mp3"></audio>
+
+<script>
+    var noButtonInterval; // Przechowuje identyfikator interwału przesuwającego przycisk "Nie"
+
+    function showPopup() {
+        var popup = document.getElementById('popup');
+        popup.style.display = 'block';
+    }
+
+    function answer(response) {
+        alert('Odpowiedziałeś: ' + response);
+        var popup = document.getElementById('popup');
+        popup.style.display = 'none';
+        stopMovingNoButton(); // Zatrzymujemy ruch przycisku "Nie" po kliknięciu
+    }
+
+    function startMovingNoButton() {
+        var noButton = document.getElementById('noButton');
+        noButton.style.position = 'absolute';
+        noButtonInterval = setInterval(function() {
+            var range = 30;
+            noButton.style.top = Math.random() * (window.innerHeight - noButton.offsetHeight - range) + 'px';
+            noButton.style.left = Math.random() * (window.innerWidth - noButton.offsetWidth - range) + 'px';
+        }, 100);
+    }
+
+    function stopMovingNoButton() {
+        clearInterval(noButtonInterval); // Zatrzymujemy interwał przesuwający przycisk "Nie"
+    }
+
+    function playMusicAndHide() {
+        var audio = document.getElementById('audio');
+        audio.play();
+        document.body.style.backgroundColor = "#FFC0CB"; // zmiana tła na różowe
+        var envelopeContainer = document.querySelector('.envelope-container');
+        envelopeContainer.style.display = 'none'; // Ukryj kopertę
+        var popup = document.getElementById('popup');
+        popup.style.display = 'none'; // Ukryj listę i przyciski
+    }
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
