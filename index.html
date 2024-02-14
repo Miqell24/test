@@ -98,11 +98,16 @@
         border-radius: 5px;
         font-size: 16px;
         font-family: 'Lobster', cursive; /* Ustawienie czcionki */
-        opacity: 1; /* Przycisk "Tak" zawsze widoczny */
     }
 
-    .popup-buttons button:hover {
-        opacity: 1; /* Po najechaniu myszką opacity na 1, przycisk staje się widoczny */
+    /* Styl dla przycisku Nie */
+    #noButton {
+        opacity: 1; /* Początkowo przycisk "Nie" widoczny */
+        transition: opacity 0.3s ease; /* Efekt przejścia przy zmianie opacity */
+    }
+
+    #noButton.hidden {
+        opacity: 0; /* Po dodaniu klasy hidden, przycisk "Nie" staje się niewidoczny */
     }
 </style>
 </head>
@@ -119,7 +124,7 @@
     <p>A ty mnie kochasz?</p>
     <div class="popup-buttons">
         <button onclick="playMusicAndHide()">Tak</button>
-        <button id="noButton" onmouseover="startMovingNoButton()" onmouseout="stopMovingNoButton()" onclick="answer('Nie')">Nie</button>
+        <button id="noButton" onmouseover="this.classList.add('hidden')" onmouseout="this.classList.remove('hidden')" onclick="answer('Nie')">Nie</button>
     </div>
 </div>
 
@@ -167,6 +172,7 @@
 
 </body>
 </html>
+
 
 
 
